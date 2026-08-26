@@ -2,15 +2,17 @@ class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Set<List<Integer>> st=new HashSet<>();
         int n=nums.length;
+        Arrays.sort(nums);
         for(int i=0;i<n-2;i++){
             Set<Integer> set=new HashSet<>();
+            int tar= -nums[i];
             for(int j=i+1;j<n;j++){
-                int find= -(nums[i]+nums[j]);
-                if(set.contains(find)){
-                    List<Integer> ls=new ArrayList<>();
+                int third=tar-nums[j];
+                if(set.contains(third)){
+                    List<Integer> ls = new ArrayList<>();
                     ls.add(nums[i]);
                     ls.add(nums[j]);
-                    ls.add(find);
+                    ls.add(third);
                     Collections.sort(ls);
                     st.add(ls);
                 }
