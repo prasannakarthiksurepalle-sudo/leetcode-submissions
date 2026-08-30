@@ -1,51 +1,19 @@
 class MyHashSet {
-    int[] table;
-    int sz=15000;
+    boolean[] table;
     public MyHashSet() {
-        table=new int[sz];
-        Arrays.fill(table,-1);
+        table=new boolean[1000001];
     }
     
     public void add(int key) {
-        int hash=key%sz;
-        if(table[hash]==key) return;
-        if(table[hash]==-1 || table[hash]==-2) table[hash]=key;
-        else{
-            int i=1;
-            int idx=hash;
-            while(table[idx]!=-1 && table[idx]!=-2){
-                idx=(hash+i*i)%sz;
-                if(table[idx]==key) return;
-                i++;
-            }table[idx]=key;
-        }
+        table[key]=true;
     }
     
     public void remove(int key) {
-        int hash=key%sz;
-        if(table[hash]==key) table[hash]=-2;
-        else{
-            int idx=hash;
-            for(int i=1;i<=sz;i++){
-                idx=(hash+i*i)%sz;
-                if(table[idx]== -1) return;
-                if(table[idx]== key) table[idx]=-2;
-            }
-        }
+        table[key]=false;
     }
     
     public boolean contains(int key) {
-        int hash=key%sz;
-        if(table[hash]==key) return true;
-        else{
-            int idx=hash;
-            for(int i=1;i<=sz;i++){
-                idx=(hash+i*i)%sz;
-                if(table[idx]==-1) return false;
-                if(table[idx]==key) return true;
-            }
-        }
-        return false;
+        return table[key];
     }
 }
 
