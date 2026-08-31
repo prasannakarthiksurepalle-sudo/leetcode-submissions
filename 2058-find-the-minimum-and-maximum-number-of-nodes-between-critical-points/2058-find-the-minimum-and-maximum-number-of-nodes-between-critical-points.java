@@ -12,20 +12,24 @@ class Solution {
     public int[] nodesBetweenCriticalPoints(ListNode head) {
         ListNode prev=head;
         ListNode cur=head.next;
-        List<Integer> ls=new ArrayList<>();
+        int first=-1,last=-1;
         int idx=2;
+        int minDist=Integer.MAX_VALUE;
+        int maxDist;
         while(cur.next!=null){
-            if((cur.val > prev.val && cur.val > cur.next.val) || (cur.val < prev.val && cur.val < cur.next.val)) ls.add(idx);
+            if((cur.val > prev.val && cur.val > cur.next.val) || (cur.val < prev.val && cur.val < cur.next.val)){
+                if(first==-1) first=idx;
+                else{
+                    minDist=Math.min(idx-last,minDist);
+                }
+                last=idx;
+            };
             idx++;
             prev=cur;
             cur=cur.next;
         }
-        if(ls.size()<2) return new int[]{-1,-1};
-        Collections.sort(ls);
-        int sz=ls.size();
-        int maxDist=ls.get(sz-1)-ls.get(0);
-        int minDist=100001;
-        for(int i=0;i<sz-1;i++) minDist=Math.min(minDist,ls.get(i+1)-ls.get(i));
+        maxDist=last-first;
+        if(first==-1 || first==last) return new int[]{-1,-1};
         return new int[]{minDist,maxDist};
     }
 }
