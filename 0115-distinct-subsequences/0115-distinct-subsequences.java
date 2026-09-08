@@ -2,22 +2,16 @@ class Solution {
     public int numDistinct(String s, String t) {
         int s1=s.length(),t1=t.length();
         if(s1<t1) return 0;
-        int[][] dp=new int[t1+1][s1+1];
-        for(int i=0;i<=s1;i++) dp[0][i]=1;
-        for(int i=1;i<=t1;i++) dp[i][0]=0;
-        for(int i=1;i<=t1;i++){
-            for(int j=1;j<=s1;j++){
-                char c1=t.charAt(i-1);
-                char c2=s.charAt(j-1);
-                int skip=dp[i][j-1];
-                int take=dp[i-1][j-1];
-                if(c1==c2){
-                    dp[i][j]=skip+take;
-                }else{
-                    dp[i][j]=skip;
-                }
-            }
-        }
-        return dp[t1][s1];
+        int[][] dp=new int[s1][t1];
+        for(int[] x:dp) Arrays.fill(x,-1);
+        return calcSubsequences(s,t,s1-1,t1-1,dp);
+    }
+    int calcSubsequences(String s,String t,int i,int j,int[][] dp){
+        if(j<0) return 1;
+        if(i<0) return 0;
+        if(dp[i][j]!= -1) return dp[i][j];
+        char c1=s.charAt(i),c2=t.charAt(j);
+        if(c1==c2) return dp[i][j]=calcSubsequences(s,t,i-1,j-1,dp)+calcSubsequences(s,t,i-1,j,dp);
+        return dp[i][j]=calcSubsequences(s,t,i-1,j,dp);
     }
 }
